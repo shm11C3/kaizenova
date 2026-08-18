@@ -1,0 +1,30 @@
+{
+  "description": "Enforce the repository task-cycle loop.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/task_cycle_hook.py\"",
+            "timeout": 5,
+            "statusMessage": "Checking the active task cycle"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/task_cycle_hook.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking task stage and retrospective"
+          }
+        ]
+      }
+    ]
+  }
+}

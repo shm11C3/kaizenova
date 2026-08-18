@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gate Shared Understanding"
+  short_description: "Verify connected understanding before implementation"
+  default_prompt: "Use $gate-shared-understanding to verify the shared model of the agreed specification before implementation begins."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Design Complexity"
+  short_description: "Audit suspected overengineering against required contracts"
+  default_prompt: "Use $review-design-complexity to audit the current growth in tests, states, or abstractions and classify it as essential, accidental, or speculative."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reflect and Improve Harness"
+  short_description: "Post-task retrospective with rule addition and removal review"
+  default_prompt: "Use $reflect-and-improve-harness to run the retrospective, apply justified harness changes, and review existing rules for removal."

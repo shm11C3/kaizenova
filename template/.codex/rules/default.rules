@@ -1,0 +1,83 @@
+# Read-only Issue discovery may run without repeated approval.
+prefix_rule(
+    pattern = ["gh", "issue", ["list", "view"]],
+    decision = "allow",
+    justification = "Issue discovery is required before filing implementation findings.",
+    match = [
+        "gh issue list --state all",
+        "gh issue view 12",
+    ],
+    not_match = [
+        "gh issue create --title example",
+    ],
+)
+
+# Issue writes remain approval-gated.
+prefix_rule(
+    pattern = ["gh", "issue", "create"],
+    decision = "prompt",
+    justification = "Confirm the target repository and that the content is safe to publish.",
+    match = [
+        "gh issue create --title bug --body evidence",
+    ],
+)
+
+# Publishing code remains an explicit approval boundary.
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Review the branch and destination before publishing code.",
+    match = [
+        "git push",
+        "git push -u origin feat/task-cycle",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "create"],
+    decision = "prompt",
+    justification = "Review the PR title, scope, and repository before creating it.",
+    match = [
+        "gh pr create --draft --title feat: runner",
+    ],
+)
+
+# Rewriting published history without a lease is not recoverable from the remote.
+# `--force-with-lease` stays a prompt so review-driven rebases remain possible.
+prefix_rule(
+    pattern = ["git", "push", ["--force", "-f"]],
+    decision = "forbidden",
+    justification = "Use --force-with-lease so unseen remote commits are not discarded.",
+    match = [
+        "git push --force",
+        "git push -f origin main",
+    ],
+    not_match = [
+        "git push --force-with-lease",
+    ],
+)
+
+# Destructive repository operations are outside the automated task cycle.
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "Use a worktree, revert commit, or explicit file restoration instead.",
+    match = [
+        "git reset --hard",
+        "git reset --hard HEAD~1",
+    ],
+)
+
+# Every flag spelling is forbidden. Enumerating flags would leave some spellings
+# allowed on one provider while the other denies all of them.
+prefix_rule(
+    pattern = ["git", "clean"],
+    decision = "forbidden",
+    justification = "Remove known generated paths explicitly; do not delete unknown worktree files.",
+    match = [
+        "git clean -fd",
+        "git clean -fdx",
+        "git clean -f",
+        "git clean -x -d -f",
+    ],
+)

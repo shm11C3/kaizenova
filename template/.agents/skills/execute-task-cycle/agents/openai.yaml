@@ -1,0 +1,4 @@
+interface:
+  display_name: "Execute Task Cycle"
+  short_description: "Classify and execute one implementation task"
+  default_prompt: "Use $execute-task-cycle to classify this implementation task, then execute its abbreviated or full workflow."
