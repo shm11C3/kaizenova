@@ -113,4 +113,8 @@ mattpock's `grill-me` skill. kaizenova deliberately narrows it: instead of
 grilling a plan exhaustively, the interview focuses on the decisions that
 change the implementation contract or need the owner's agreement.
 
+## License
+
+[MIT](LICENSE)
+
 日本語のREADMEは [README.ja.md](README.ja.md) にあります。
