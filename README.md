@@ -1,5 +1,7 @@
 # kaizenova
 
+English | [日本語](README.ja.md)
+
 [![Tests](https://img.shields.io/github/actions/workflow/status/shm11C3/kaizenova/test.yml?style=flat-square&label=tests)](https://github.com/shm11C3/kaizenova/actions/workflows/test.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat-square)](#)
@@ -129,5 +131,3 @@ change the implementation contract or need the owner's agreement.
 ## License
 
 [MIT](LICENSE)
-
-日本語のREADMEは [README.ja.md](README.ja.md) にあります。
