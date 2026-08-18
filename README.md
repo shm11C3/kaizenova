@@ -98,7 +98,9 @@ No QA phase (declare a project validation stage in `AGENTS.md` if you need
 one), no multi-agent delegation tracking, no PR-size metering, no state-file
 versioning or migration machinery. The reasoning, including the
 overengineering failure modes this design guards against, is in
-[docs/DESIGN.md](docs/DESIGN.md).
+[docs/DESIGN.md](docs/DESIGN.md); individual decisions — distribution model,
+language choice, what was excluded and what would reopen it — are recorded as
+ADRs in [docs/adr/](docs/adr/).
 
 ## Development
 
