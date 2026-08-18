@@ -42,5 +42,7 @@ removed with the same rigor that added it.
 - Commit in semantic units: one meaning per commit, and the message explains
   why, not what.
 - `/.claude/` is session-local and gitignored; never commit it.
-- Repository text is English, except `README.ja.md`. Match the user's
-  language in chat.
+- Everything public reads in English: code, docs except `README.ja.md`,
+  commit messages, GitHub Issues, and pull requests — this is a public
+  repository and its audience is not assumed to read Japanese. Match the
+  user's language in chat only.
