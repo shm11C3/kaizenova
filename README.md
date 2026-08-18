@@ -52,6 +52,11 @@ Key properties:
 ## Install
 
 Requirements: a git repository, Python 3.11+, and Claude Code and/or Codex.
+Works on macOS, Linux, and Windows. On native Windows, point the hook
+commands in `.claude/settings.json` and `.codex/hooks.json` at your Python
+launcher if `python3` is not on `PATH`, and note that `.claude/skills`
+entries are copies where symlinks are unavailable (the installer explains how
+to refresh them).
 
 ```bash
 python3 install.py /path/to/your/repo

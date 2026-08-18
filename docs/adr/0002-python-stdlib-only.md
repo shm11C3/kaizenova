@@ -33,16 +33,32 @@ step, no lockfile.
 - Interpreter-version fragmentation is a real Python cost: adapters carry a
   `MINIMUM_PYTHON` guard, duplicated before import so a syntax bump cannot
   crash the check itself. A crashed hook would fail open.
-- `fcntl` makes the lock POSIX-only; Windows is unsupported. A portable
-  lock-directory scheme (atomic `mkdir`) could lift this in any language if
-  Windows support is ever demanded.
 - Go and TypeScript were rejected on distribution fit, not on merit: Go needs
   committed binaries or a toolchain at install time; TS needs Node on `PATH`
   plus an execution step, and an external package for locking.
 
+## Amendment (2026-08-19): Windows support
+
+The original decision left the lock POSIX-only (`fcntl`) with Windows
+unsupported; the owner requested Windows support, firing that revisit
+condition. The language decision was unaffected — the standard library still
+covers everything — and three portability fixes landed:
+
+- the advisory lock branches on platform: `fcntl.flock` on POSIX,
+  `msvcrt.locking` on Windows; both release on process death, which a
+  presence-based lock file would not;
+- lesson retrieval dropped `O_NOFOLLOW`/`dir_fd` descriptor hardening for
+  path-level symlink checks, keeping the do-not-follow-symlinks invariant
+  portably;
+- committed `.claude/skills` symlinks were replaced by installer-generated
+  bridges (symlink where available, directory copy otherwise), because git
+  materializes committed symlinks as plain text files on Windows checkouts.
+
+Native-Windows hook configuration may still need `python3` changed to the
+local Python launcher; the README documents this. CI exercises
+ubuntu/macos/windows.
+
 ## Revisit when
 
 ADR 0001 is reopened in favor of a CLI package (Go becomes the strongest
-candidate: single binary, no interpreter fragmentation), or Windows support
-becomes a real requirement (fix the lock mechanism first; the language may
-not need to change).
+candidate: single binary, no interpreter fragmentation).

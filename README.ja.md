@@ -27,7 +27,7 @@ kaizenova は小さな状態機械、**Claude Code / Codex** 両対応のライ�
 
 ## 導入
 
-要件: gitリポジトリ、Python 3.11+、Claude Code または Codex。
+要件: gitリポジトリ、Python 3.11+、Claude Code または Codex。macOS・Linux・Windowsで動作します。ネイティブWindowsでは、`python3` がPATHにない場合は `.claude/settings.json` と `.codex/hooks.json` のHookコマンドをお使いのPythonランチャーに変更してください。また、symlinkが使えない環境では `.claude/skills` はコピーになります(更新方法はインストーラが案内します)。
 
 ```bash
 python3 install.py /path/to/your/repo
