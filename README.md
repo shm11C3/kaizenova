@@ -1,5 +1,11 @@
 # kaizenova
 
+[![Tests](https://img.shields.io/github/actions/workflow/status/shm11C3/kaizenova/test.yml?style=flat-square&label=tests)](https://github.com/shm11C3/kaizenova/actions/workflows/test.yml)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat-square)](#)
+[![Agents](https://img.shields.io/badge/agents-Claude%20Code%20%7C%20Codex-D97757.svg?style=flat-square)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+
 A portable task-execution loop for AI coding agents, enforced by machine, not
 by prose. It targets the two debts that agent-driven development quietly
 accumulates:
