@@ -1,6 +1,6 @@
 # Design Notes
 
-kaizen-loop was extracted from a private project (kaizen-agent, an ISUCON
+kaizenova was extracted from a private project (kaizen-agent, an ISUCON
 improvement agent) where the loop ran for several weeks of daily
 agent-driven development. This document records what was generalized, what
 was deliberately left behind, and why the harness is built to shrink.

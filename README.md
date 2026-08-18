@@ -1,4 +1,4 @@
-# kaizen-loop
+# kaizenova
 
 A portable task-execution loop for AI coding agents, enforced by machine, not
 by prose. It targets the two debts that agent-driven development quietly
@@ -9,7 +9,7 @@ accumulates:
 - **cognitive and intent debt** — the human stops understanding the code the
   agent writes, and the codebase stops reflecting anyone's intent.
 
-kaizen-loop installs a small state machine, lifecycle hooks for **Claude Code**
+kaizenova installs a small state machine, lifecycle hooks for **Claude Code**
 and **Codex**, and four canonical skills into your repository. The hooks block
 a turn from ending while the task cycle is incomplete; the skills define what
 "complete" means.
@@ -64,7 +64,7 @@ python3 scripts/task_cycle.py start --task my-task --title "Add rate limiting"
 ```
 
 Then ask your agent to work on the task; the `$execute-task-cycle` skill picks
-the path from there. The state receipt lives in `.kaizen/task-cycle.json`;
+the path from there. The state receipt lives in `.kaizenova/task-cycle.json`;
 `python3 scripts/task_cycle.py status` shows it. Hook behavior, and which
 parts of it are fixed versus tunable, is documented in
 `docs/agents/ENFORCEMENT.md` after installation.

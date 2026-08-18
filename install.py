@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the kaizen-loop task-cycle harness into a target repository.
+"""Install the kaizenova task-cycle harness into a target repository.
 
 Copies the contents of ``template/`` into the target, preserving symlinks
 (``.claude/skills/*`` link to the canonical ``.agents/skills/*``). Existing

@@ -198,7 +198,7 @@ external feedback to a private file without passing it through a shell, then
 retrieve only bounded evidence:
 
 ```bash
-python3 scripts/find_relevant_lessons.py --query-file .kaizen/lesson-query.txt --limit 5
+python3 scripts/find_relevant_lessons.py --query-file .kaizenova/lesson-query.txt --limit 5
 ```
 
 ## Discoveries

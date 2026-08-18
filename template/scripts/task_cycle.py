@@ -43,7 +43,7 @@ def repo_root() -> Path:
 
 
 def state_path(root: Path) -> Path:
-    return root / ".kaizen" / "task-cycle.json"
+    return root / ".kaizenova" / "task-cycle.json"
 
 
 @contextmanager
@@ -97,7 +97,7 @@ def classification_kind(state: dict[str, Any]) -> str | None:
 
 
 def archive_state(root: Path, state: dict[str, Any]) -> Path:
-    """Keep the previous task's receipt, which `.kaizen/` alone would overwrite."""
+    """Keep the previous task's receipt, which `.kaizenova/` alone would overwrite."""
 
     history = state_path(root).parent / "history"
     history.mkdir(parents=True, exist_ok=True)

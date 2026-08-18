@@ -53,7 +53,7 @@ def make_repo(tmp: str) -> Path:
 
 
 def state(repo: Path) -> dict:
-    return json.loads((repo / ".kaizen" / "task-cycle.json").read_text(encoding="utf-8"))
+    return json.loads((repo / ".kaizenova" / "task-cycle.json").read_text(encoding="utf-8"))
 
 
 def write_retrospective(repo: Path) -> str:
@@ -260,7 +260,7 @@ def test_hook_core() -> None:
         check("completed task is silent", hook_decision(repo).kind == "silent")
 
         # A nested receipt must fail closed, not win.
-        nested = repo / "sub" / ".kaizen"
+        nested = repo / "sub" / ".kaizenova"
         nested.mkdir(parents=True)
         (nested / "task-cycle.json").write_text("{}", encoding="utf-8")
         decision = evaluate(str(repo / "sub"), "Stop", stop_hook_active=False)
@@ -268,7 +268,7 @@ def test_hook_core() -> None:
 
         # An unreadable receipt must fail closed.
         (nested / "task-cycle.json").write_text("not json", encoding="utf-8")
-        (repo / ".kaizen" / "task-cycle.json").unlink()
+        (repo / ".kaizenova" / "task-cycle.json").unlink()
         decision = evaluate(str(repo / "sub"), "Stop", stop_hook_active=False)
         check("unreadable receipt blocks", decision.kind == "block", decision.message)
 

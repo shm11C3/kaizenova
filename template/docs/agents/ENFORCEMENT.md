@@ -43,7 +43,7 @@ from task evidence through the retrospective loop.
 ## State Resolution
 
 The search walks from the working directory towards the filesystem root
-looking for `.kaizen/task-cycle.json`. One match is used; more than one
+looking for `.kaizenova/task-cycle.json`. One match is used; more than one
 blocks. `.git` deliberately does not bound the search: a linked worktree
 stores `.git` as a file, so bounding on it would make the enforced range
 depend on a file-versus-directory check.

@@ -12,7 +12,7 @@ canonical procedure; do not restate it here.
 
 Do not implement a contract-changing task before the human passes the
 understanding gate (`$gate-shared-understanding`). Track the active stage in
-`.kaizen/task-cycle.json` using `scripts/task_cycle.py`; lifecycle hooks
+`.kaizenova/task-cycle.json` using `scripts/task_cycle.py`; lifecycle hooks
 enforce it at turn boundaries (see `docs/agents/ENFORCEMENT.md`).
 
 ## Sources of Truth

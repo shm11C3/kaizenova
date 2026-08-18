@@ -16,7 +16,7 @@ from typing import Any, Literal
 
 DecisionKind = Literal["silent", "notify", "block"]
 
-STATE_RELATIVE_PATH = Path(".kaizen") / "task-cycle.json"
+STATE_RELATIVE_PATH = Path(".kaizenova") / "task-cycle.json"
 
 # Adapters repeat this tuple because they must check the interpreter before
 # importing this module: a future syntax bump here would turn the import itself

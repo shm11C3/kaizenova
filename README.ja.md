@@ -1,4 +1,4 @@
-# kaizen-loop
+# kaizenova
 
 AIコーディングエージェント向けのタスク実行ループ。散文の注意書きではなく、機械的な強制で回す。
 
@@ -7,7 +7,7 @@ AIコーディングエージェント向けのタスク実行ループ。散文
 - **プロセス負債** — 止めるものがなければ、エージェントは確認・テスト・レビュー返信・振り返りを飛ばしてターンを終える。
 - **認知負債・意図負債** — 人間がAIの書いたコードを理解できなくなり、コードベースから意図が失われる。
 
-kaizen-loop は小さな状態機械、**Claude Code / Codex** 両対応のライフサイクルHook、4つの正本Skillをリポジトリに導入する。Hookはタスクサイクルが未完了のままターンを終えることをブロックし、Skillが「完了」の定義を与える。
+kaizenova は小さな状態機械、**Claude Code / Codex** 両対応のライフサイクルHook、4つの正本Skillをリポジトリに導入する。Hookはタスクサイクルが未完了のままターンを終えることをブロックし、Skillが「完了」の定義を与える。
 
 ## ループの構造
 
@@ -43,7 +43,7 @@ python3 install.py /path/to/your/repo
 python3 scripts/task_cycle.py start --task my-task --title "レート制限を追加"
 ```
 
-あとはエージェントにタスクを依頼すれば `$execute-task-cycle` Skillが経路を選ぶ。状態レシートは `.kaizen/task-cycle.json`、Hookの挙動と固定/可変の区分は導入後の `docs/agents/ENFORCEMENT.md` を参照。
+あとはエージェントにタスクを依頼すれば `$execute-task-cycle` Skillが経路を選ぶ。状態レシートは `.kaizenova/task-cycle.json`、Hookの挙動と固定/可変の区分は導入後の `docs/agents/ENFORCEMENT.md` を参照。
 
 ## 意図的に含めていないもの
 
