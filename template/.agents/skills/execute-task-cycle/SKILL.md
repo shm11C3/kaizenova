@@ -97,19 +97,25 @@ python3 scripts/task_cycle.py advance --phase confirmation
 
 ## Confirmation
 
-Interview the human until every material branch is resolved. Do this yourself;
-do not defer to an external skill:
+Interview the human. Do this yourself; do not defer to an external skill. The
+interview targets decisions, not coverage: its job is to surface every
+decision that changes the implementation contract or needs the owner's
+agreement, and resolve it — not to grill the whole design.
 
-- Ask one question per turn and wait for the answer.
-- Work through the decision tree branch by branch: product outcome, interfaces,
-  failure handling, rollout, and ownership boundaries. Challenge assumptions
-  the specification takes for granted, including your own.
-- For each open decision, present the viable options with their concrete
+- First sort the open points into three kinds: decisions that change the
+  contract (interfaces, observable behavior, failure handling, safety
+  boundaries, rollout, ownership); decisions the agent can make itself; and
+  settled facts. Only the first kind is interviewed. State the second kind as
+  proposals the human can veto, and do not question the third.
+- Ask one question per turn and wait for the answer. Challenge assumptions the
+  specification takes for granted, including your own, when a wrong assumption
+  would change the contract.
+- For each contract decision, present the viable options with their concrete
   consequences, then let the human choose. Do not present a menu when the
   evidence already selects an option; recommend it and say why.
 - A decision may be deferred only when this task does not depend on it. Record
   each deferral with its owner, consequence, and decision deadline.
-- Stop interviewing when new questions stop changing the specification.
+- Stop when the remaining questions can no longer change the contract.
 
 Record durable decisions at the canonical layer the project declares (design
 doc, ADR, or product doc). Update the task Issue so its outcome and completion

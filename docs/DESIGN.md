@@ -78,6 +78,16 @@ so the ledger tracks living contracts and nothing else. Removal condition: if
 gates stop consulting it, or it fills with entries no gate ever credits,
 remove it.
 
+## The confirmation interview
+
+The confirmation step interviews the human through the specification's
+decision tree. Its questioning style borrows the spirit of mattpock's
+`grill-me` skill, deliberately narrowed: instead of grilling the whole design
+exhaustively, the interview targets only the decisions that change the
+implementation contract or need the owner's agreement. Everything the agent
+can decide is stated as a proposal to veto, not asked as a question, and the
+interview stops when remaining questions can no longer change the contract.
+
 ## Deliberately excluded
 
 | Excluded | Reason | What would reopen it |
@@ -87,7 +97,7 @@ remove it.
 | Multi-agent delegation reconciliation | Tied to the origin's worktree-per-subagent practice | Measured demand from users running delegated subagents |
 | PR-scope and measurement-drift metering | Bound to the origin's directory layout and experiment cadence; overlapped two other mechanisms | Evidence that the complexity-review skill alone misses scope creep |
 | Meta-validation of guidance consistency | The layer deduplication above removes the drift it guarded | Reintroducing duplicated guidance layers (do not) |
-| Third-party skill references (`$tdd`, `$grill-me`) | A public template cannot depend on skills users do not have | Nothing — the procedures are inlined in `$execute-task-cycle` |
+| Third-party skill references (`$tdd`, `$grill-me`) | A public template cannot depend on skills users do not have | Nothing — the procedures are inlined in `$execute-task-cycle`, with `grill-me`'s influence credited in the README |
 
 ## What was kept fail-closed, and why
 

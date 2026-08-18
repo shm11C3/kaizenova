@@ -28,9 +28,11 @@ Every task is classified before any implementation:
 Key properties:
 
 - **Human confirmation and an understanding gate** stand between specification
-  and implementation of every contract-changing task. The gate verifies
-  *connected* understanding — a system sketch and a cross-component trace
-  scenario — not the ability to look an answer up in a document.
+  and implementation of every contract-changing task. The confirmation
+  interview targets only the decisions that change the contract or need the
+  owner's agreement; the gate verifies *connected* understanding — a system
+  sketch and a cross-component trace scenario — not the ability to look an
+  answer up in a document.
 - **An understanding ledger** carries demonstrated understanding across tasks:
   the gate credits what the human has already shown instead of re-asking it,
   and a task that changes a contract marks the dependent entries stale so the
@@ -103,5 +105,12 @@ overengineering failure modes this design guards against, is in
 ```bash
 python3 tests/check_task_cycle.py
 ```
+
+## Acknowledgements
+
+The confirmation interview's decision-tree questioning borrows its spirit from
+mattpock's `grill-me` skill. kaizenova deliberately narrows it: instead of
+grilling a plan exhaustively, the interview focuses on the decisions that
+change the implementation contract or need the owner's agreement.
 
 日本語のREADMEは [README.ja.md](README.ja.md) にあります。
