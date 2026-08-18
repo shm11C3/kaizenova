@@ -16,6 +16,7 @@ Format: Status, Date, Context, Decision, Consequences, Revisit when.
 | [0004](0004-understanding-gate-and-ledger.md) | Gate connected understanding, not retrieval; persistent understanding ledger |
 | [0005](0005-canonical-layer-and-subtraction.md) | One canonical layer per concern; rule metadata; mandatory subtraction |
 | [0006](0006-self-contained-skills.md) | Skills are self-contained; the confirmation interview is decision-focused |
+| [0007](0007-repository-self-guidance.md) | Root repository guidance; working rules with their triggers and removal conditions |
 
 The narrative these decisions were extracted from — what the origin project
 taught — is in [../DESIGN.md](../DESIGN.md).
