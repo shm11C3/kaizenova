@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
-import fcntl
 import json
+import os
 import re
 import subprocess
 from collections.abc import Iterator
@@ -13,6 +13,11 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+
+if os.name == "nt":
+    import msvcrt
+else:
+    import fcntl
 
 from task_cycle_core import RETROSPECTIVE_HEADINGS
 
@@ -48,16 +53,31 @@ def state_path(root: Path) -> Path:
 
 @contextmanager
 def task_cycle_lock(root: Path) -> Iterator[None]:
-    """Serialize every receipt mutation within one repository."""
+    """Serialize every receipt mutation within one repository.
+
+    Both lock flavors release on process death, unlike a lock file whose
+    presence is the lock; a crashed command must not leave the receipt
+    permanently locked. `msvcrt.locking` retries for about ten seconds before
+    raising, which is generous against mutations that finish in milliseconds.
+    """
 
     directory = state_path(root).parent
     directory.mkdir(parents=True, exist_ok=True)
-    with (directory / "task-cycle.lock").open("a", encoding="utf-8") as lock:
-        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
-        try:
-            yield
-        finally:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
+    with (directory / "task-cycle.lock").open("a+", encoding="utf-8") as lock:
+        if os.name == "nt":
+            lock.seek(0)
+            msvcrt.locking(lock.fileno(), msvcrt.LK_LOCK, 1)
+            try:
+                yield
+            finally:
+                lock.seek(0)
+                msvcrt.locking(lock.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+            try:
+                yield
+            finally:
+                fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
 
 
 def load_state(root: Path) -> dict[str, Any]:
