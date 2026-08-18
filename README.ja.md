@@ -97,9 +97,30 @@ python3 scripts/task_cycle.py start --task my-task --title "レート制限を�
 
 あとはエージェントにタスクを依頼すれば `$execute-task-cycle` Skillが経路を選びます。状態レシートは `.kaizenova/task-cycle.json` に置かれ、Hookの挙動と固定/可変の区分は導入後の `docs/agents/ENFORCEMENT.md` をご覧ください。
 
+## テンプレートの内容
+
+| 構成要素 | 役割 |
+|---|---|
+| `.agents/skills/execute-task-cycle` | タスク手順の正本。分類、2つの経路、TDD、Discovery、PRのルール |
+| `.agents/skills/gate-shared-understanding` | 理解ゲート。記憶の再生ではなく、統合された理解を試すよう設計されています |
+| `.agents/skills/reflect-and-improve-harness` | ふりかえり。既存ルールの削除レビューが必須です |
+| `.agents/skills/review-design-complexity` | 過剰設計の監査。本質的/偶発的/投機的/検証不足に分類します |
+| `scripts/task_cycle.py`, `scripts/task_cycle_core.py` | ステートマシンのCLIと、エージェント非依存のHook判定コア |
+| `.claude/`, `.codex/` | 両エージェント向けのHookアダプタ、パーミッション、承認ルール |
+| `scripts/find_relevant_lessons.py` | 記録済みの教訓・ふりかえりに対する、有限で決定的な検索 |
+| `docs/agents/` | 強制の仕様、理解台帳、ふりかえりテンプレート、教訓ディレクトリ |
+
+Claude Code と Codex は単一の判定コアを共有し、アダプタは各エージェントの入出力契約だけを担います。そのため、ワークフローの判断が両者で食い違うことはありません。
+
 ## 意図的に含めていないもの
 
 QAフェーズ(必要なら `AGENTS.md` にプロジェクト検証ステージとして宣言してください)、マルチエージェント委譲の追跡、PRサイズ計測、状態ファイルのバージョン移行機構は含めていません。理由と、この設計が避けている過剰設計の失敗パターンは [docs/DESIGN.md](docs/DESIGN.md) にまとめています。配布形態・言語選択・除外判断などの個別の決定は、発動根拠と再検討条件つきのADRとして [docs/adr/](docs/adr/) に記録しています。
+
+## 開発
+
+```bash
+python3 tests/check_task_cycle.py
+```
 
 ## 謝辞
 
