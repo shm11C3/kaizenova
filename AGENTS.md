@@ -46,3 +46,7 @@ removed with the same rigor that added it.
   commit messages, GitHub Issues, and pull requests — this is a public
   repository and its audience is not assumed to read Japanese. Match the
   user's language in chat only.
+
+The working rules above are themselves recorded in ADR 0007 with each
+rule's observed trigger and removal condition; run the subtraction review
+against that table.
