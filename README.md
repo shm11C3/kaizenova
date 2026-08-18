@@ -59,23 +59,75 @@ Key properties:
 
 ## Install
 
-Requirements: a git repository, Python 3.11+, and Claude Code and/or Codex.
-Works on macOS, Linux, and Windows. On native Windows, point the hook
-commands in `.claude/settings.json` and `.codex/hooks.json` at your Python
-launcher if `python3` is not on `PATH`, and note that `.claude/skills`
-entries are copies where symlinks are unavailable (the installer explains how
-to refresh them).
+### Requirements
+
+- a git repository to install into (the installer writes to the repository root);
+- Python 3.11 or newer, available as `python3` (check with `python3 --version`);
+- Claude Code and/or Codex — hooks are installed for both, and each provider
+  ignores the other's files.
+
+No third-party packages are needed; the harness uses the standard library only.
+
+### 1. Get kaizenova
+
+kaizenova is not published as a package. Clone it once, anywhere outside the
+repository you want to install into, and run its installer from there.
 
 ```bash
-python3 install.py /path/to/your/repo
+git clone https://github.com/shm11C3/kaizenova.git
 ```
 
-The installer copies the template into your repository and never overwrites
-existing files. Then:
+### 2. Run the installer
 
-1. Edit `AGENTS.md` — fill in every `EDIT ME` placeholder: mission, sources of
-   truth, the optional project validation stage, and your language rule.
-2. Commit the installed files.
+```bash
+python3 kaizenova/install.py /path/to/your/repo
+```
+
+The target path must be the **root** of a git repository. The installer copies
+`template/` into it and **never overwrites an existing file** — anything
+already present is reported as "left in place" so you can merge it by hand.
+That also makes re-running the installer the supported way to upgrade: run it
+again, then review the reported conflicts.
+
+What lands in your repository:
+
+| Path | What it is |
+|---|---|
+| `AGENTS.md`, `CLAUDE.md` | Agent guidance, with `EDIT ME` placeholders to fill in |
+| `.agents/skills/` | The four canonical skills |
+| `.claude/`, `.codex/` | Hook adapters, permissions, and approval rules |
+| `scripts/` | The state-machine CLI and the shared hook decision core |
+| `docs/agents/` | Enforcement reference, understanding ledger, retrospective template |
+
+### 3. Fill in `AGENTS.md`
+
+Open `AGENTS.md` and replace every `EDIT ME` placeholder, deleting the comment
+around it once done:
+
+- **mission** — what the project is, and what outcome justifies the work;
+- **sources of truth** — the documents that fix outcomes, invariants, and
+  design; the workflow reads this list;
+- **project validation stage** — optional. Declare it if the project needs an
+  extra validation step after PR review, otherwise delete the section;
+- **language rule** — which language human-facing documents (Issues, PRs,
+  retrospectives) use, versus code and agent guidance.
+
+### 4. Commit the installed files
+
+Commit everything the installer added. The hooks and skills only take effect
+once they are part of the repository.
+
+### Notes for Windows
+
+kaizenova runs on macOS, Linux, and Windows. On native Windows two things
+differ:
+
+- if `python3` is not on `PATH`, point the hook commands in
+  `.claude/settings.json` and `.codex/hooks.json` at your Python launcher
+  (typically `py -3`);
+- where symlinks are unavailable, the `.claude/skills` entries are copies
+  instead of links to `.agents/skills`, so they do not pick up later edits on
+  their own. The installer prints how to refresh them.
 
 ## Usage
 
