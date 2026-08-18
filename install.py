@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
 """Install the kaizenova task-cycle harness into a target repository.
 
-Copies the contents of ``template/`` into the target, preserving symlinks
-(``.claude/skills/*`` link to the canonical ``.agents/skills/*``). Existing
-files are never overwritten; conflicts are reported so the owner can merge by
-hand. The installer is intentionally dumb: the template is the source of
-truth, and an upgrade is a re-run plus a review of the reported conflicts.
+Copies the contents of ``template/`` into the target, then bridges each
+canonical skill in ``.agents/skills/`` into ``.claude/skills/`` — a relative
+symlink where the platform supports it, a directory copy otherwise (Windows
+without developer mode). The bridges are generated here rather than stored in
+the template because git materializes committed symlinks as plain text files
+on Windows checkouts.
+
+Existing files are never overwritten; conflicts are reported so the owner can
+merge by hand. The installer is intentionally dumb: the template is the source
+of truth, and an upgrade is a re-run plus a review of the reported conflicts.
 """
 
 from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -29,12 +35,33 @@ def iter_template_files() -> list[Path]:
         entries.extend(
             base / name for name in filenames if not name.endswith(".pyc")
         )
-        # Symlinked directories (.claude/skills/*) appear in dirnames but are
-        # not descended into; copy them as links rather than as trees.
-        entries.extend(
-            base / name for name in dirnames if (base / name).is_symlink()
-        )
     return sorted(entries)
+
+
+def bridge_skills(target: Path) -> tuple[list[str], list[str], bool]:
+    """Make each canonical skill reachable at ``.claude/skills/<name>``."""
+
+    linked: list[str] = []
+    skipped: list[str] = []
+    copied_any = False
+    skills_root = target / ".agents" / "skills"
+    link_dir = target / ".claude" / "skills"
+    if not skills_root.is_dir():
+        return linked, skipped, copied_any
+    link_dir.mkdir(parents=True, exist_ok=True)
+    for skill in sorted(path for path in skills_root.iterdir() if path.is_dir()):
+        destination = link_dir / skill.name
+        if destination.exists() or destination.is_symlink():
+            skipped.append(f".claude/skills/{skill.name}")
+            continue
+        relative_source = Path("..") / ".." / ".agents" / "skills" / skill.name
+        try:
+            os.symlink(relative_source, destination, target_is_directory=True)
+        except OSError:
+            shutil.copytree(skill, destination)
+            copied_any = True
+        linked.append(f".claude/skills/{skill.name}")
+    return linked, skipped, copied_any
 
 
 def install(target: Path) -> int:
@@ -58,12 +85,23 @@ def install(target: Path) -> int:
             destination.chmod(source.stat().st_mode)
         copied.append(relative)
 
+    linked, links_skipped, links_copied = bridge_skills(target)
+
     for path in copied:
         print(f"installed {path}")
-    if skipped:
+    for entry in linked:
+        print(f"installed {entry}")
+    all_skipped = [str(path) for path in skipped] + links_skipped
+    if all_skipped:
         print("\nleft in place (already exist — merge by hand if upgrading):")
-        for path in skipped:
-            print(f"  {path}")
+        for entry in all_skipped:
+            print(f"  {entry}")
+    if links_copied:
+        print(
+            "\nnote: symlinks are unavailable here, so .claude/skills entries are\n"
+            "copies. After editing a skill in .agents/skills, delete its copy under\n"
+            ".claude/skills and re-run this installer to refresh it."
+        )
 
     print(
         "\nnext steps:\n"
