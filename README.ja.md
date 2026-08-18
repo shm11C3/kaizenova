@@ -103,7 +103,7 @@ QAフェーズ(必要なら `AGENTS.md` にプロジェクト検証ステージ�
 
 ## 謝辞
 
-確認インタビューの決定木を辿る問答スタイルは、mattpock氏の `grill-me` Skillの思想を借りています。kaizenova では意図的に範囲を絞り、計画全体を網羅的に詰めるのではなく、実装契約を変える決定とオーナーの合意が必要な決定にフォーカスしています。
+確認インタビューの決定木を辿る問答スタイルは、mattpocock氏([@mattpocock](https://github.com/mattpocock))の [`grill-me`](https://github.com/mattpocock/skills/blob/main/docs/productivity/grill-me.md) Skillの思想を借りています。kaizenova では意図的に範囲を絞り、計画全体を網羅的に詰めるのではなく、実装契約を変える決定とオーナーの合意が必要な決定にフォーカスしています。
 
 ## ライセンス
 

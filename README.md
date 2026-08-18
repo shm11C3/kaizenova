@@ -176,9 +176,11 @@ python3 tests/check_task_cycle.py
 ## Acknowledgements
 
 The confirmation interview's decision-tree questioning borrows its spirit from
-mattpock's `grill-me` skill. kaizenova deliberately narrows it: instead of
-grilling a plan exhaustively, the interview focuses on the decisions that
-change the implementation contract or need the owner's agreement.
+Matt Pocock's ([@mattpocock](https://github.com/mattpocock))
+[`grill-me`](https://github.com/mattpocock/skills/blob/main/docs/productivity/grill-me.md)
+skill. kaizenova deliberately narrows it: instead of grilling a plan
+exhaustively, the interview focuses on the decisions that change the
+implementation contract or need the owner's agreement.
 
 ## License
 

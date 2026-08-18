@@ -29,7 +29,7 @@ Inline both procedures into `$execute-task-cycle`, written from scratch:
   veto); settled facts (not questioned). The interview stops when remaining
   questions can no longer change the contract.
 
-The interview's decision-tree questioning borrows its spirit from mattpock's
+The interview's decision-tree questioning borrows its spirit from Matt Pocock's
 `grill-me` skill, credited in the README, and deliberately narrows it as
 described above.
 
