@@ -1,6 +1,6 @@
 ---
 name: gate-shared-understanding
-description: Verify the human's connected, system-level understanding of an agreed specification before coding, crediting causal explanations already given and testing synthesis across components rather than document retrieval. Use during the mandatory understanding gate after specification decisions are settled and before implementation.
+description: Verify the human's connected, system-level understanding of an agreed specification before coding, crediting the understanding ledger and causal explanations already given, and testing synthesis across components rather than document retrieval. Use during the mandatory understanding gate after specification decisions are settled and before implementation.
 ---
 
 # Gate Shared Understanding
@@ -77,8 +77,28 @@ consequences over internal result names.
 
 ## Reuse Existing Understanding
 
-Before writing a question, inspect the current conversation for explanations
-and decisions already provided by the human. Credit a statement when it
+Understanding is credited from two sources: the understanding ledger, which
+carries it across tasks, and the current conversation.
+
+**The ledger.** Read `docs/agents/understanding-ledger.md` before writing any
+question:
+
+- credit `current` entries covering this task's territory exactly as if the
+  human had demonstrated them in this conversation; do not re-ask them;
+- treat a `stale` entry this task depends on as a material gap: re-verify it
+  with a new scenario grounded in what changed, not by repeating the question
+  that originally established it;
+- territory with no entry is where the sketch and the trace scenario belong.
+
+After the gate passes, update the ledger in the same task: add or extend
+entries for understanding newly demonstrated, stating the causal understanding
+shown with the task id and date, and return re-verified `stale` entries to
+`current`. Keep entries at the contract level; delete any whose contract no
+longer exists. The ledger is a memory aid for the gate, not an audit record —
+it records what understanding was demonstrated, never who approved what.
+
+**The conversation.** Inspect the current conversation for explanations and
+decisions already provided by the human. Credit a statement when it
 demonstrates the same causal understanding a scenario would test: why the task
 exists, what responsibility boundary applies, what consequence follows, or why
 an alternative was rejected.
@@ -91,7 +111,7 @@ point are already demonstrated, pass without a new question.
 
 ## Build the Gate
 
-Across the sketch, existing evidence, and new questions, cover:
+Across the ledger, the sketch, existing evidence, and new questions, cover:
 
 - why this task is needed now, what evidence or next decision it enables, and
   what would remain unsafe or unmeasurable if it were skipped;
@@ -149,7 +169,8 @@ Do not fail the human when the fault is not theirs:
 Record, when present:
 
 - the human's system sketch and the gap inventory derived from it;
-- credited existing evidence mapped to every required point;
+- credited ledger entries and conversation evidence mapped to every required
+  point, and the ledger entries added or refreshed after the pass;
 - questions asked for remaining gaps, the answers, and their evaluation;
 - the evaluation of each safety-critical point;
 - clarifications, and the final pass or return-to-confirmation decision.

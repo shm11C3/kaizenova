@@ -31,6 +31,11 @@ Key properties:
   and implementation of every contract-changing task. The gate verifies
   *connected* understanding — a system sketch and a cross-component trace
   scenario — not the ability to look an answer up in a document.
+- **An understanding ledger** carries demonstrated understanding across tasks:
+  the gate credits what the human has already shown instead of re-asking it,
+  and a task that changes a contract marks the dependent entries stale so the
+  next gate re-verifies exactly those. The gate measures the accumulated
+  shared model and its decay, not a per-task snapshot.
 - **Discoveries** (anything affecting acceptance, safety, correctness, or
   scope) must be resolved in-task or linked to an Issue; the hooks and the CLI
   both refuse to advance past an unresolved one.
@@ -80,7 +85,7 @@ parts of it are fixed versus tunable, is documented in
 | `scripts/task_cycle.py`, `scripts/task_cycle_core.py` | State machine CLI and the provider-neutral hook decision core |
 | `.claude/`, `.codex/` | Hook adapters, permissions, and approval rules for both providers |
 | `scripts/find_relevant_lessons.py` | Bounded, deterministic retrieval over recorded lessons and retrospectives |
-| `docs/agents/` | Enforcement reference, retrospective template, lessons directory |
+| `docs/agents/` | Enforcement reference, understanding ledger, retrospective template, lessons directory |
 
 Claude Code and Codex share one decision core; the adapters own only their
 provider's I/O contract, so the two can never diverge on workflow decisions.

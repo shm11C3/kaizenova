@@ -63,11 +63,20 @@ directly:
 - open questions are the default; multiple choice is reserved for pinning down
   a specific confusion.
 
-No persistent "understanding ledger" was added. Cross-task memory of what the
-human has demonstrated is a plausible extension, but it adds a state file that
-itself needs pruning and staleness rules; it stays out until per-task gates
-are measured to be insufficient. (This is the rule-metadata discipline applied
-to the harness's own features.)
+A persistent **understanding ledger** (`docs/agents/understanding-ledger.md`)
+carries demonstrated understanding across tasks: the gate credits `current`
+entries instead of re-asking them, and re-verifies entries that a contract
+change marked `stale`. This turns the gate from a per-task snapshot into a
+measure of the accumulated shared model and its decay.
+
+The ledger is itself a rule and follows the rule-metadata discipline. Trigger:
+per-task gates were observed re-testing settled ground while stale
+understanding went undetected. Guardrails against becoming a new accumulation
+point: entries live at the contract level only, the task that changes a
+contract marks its entries stale, and entries are deleted with their contract,
+so the ledger tracks living contracts and nothing else. Removal condition: if
+gates stop consulting it, or it fills with entries no gate ever credits,
+remove it.
 
 ## Deliberately excluded
 

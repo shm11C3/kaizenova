@@ -106,6 +106,18 @@ of new prose is not behavioral evidence. For changed hooks, test the valid,
 invalid, missing-state, human-wait, unresolved-discovery,
 retrospective-required, and completed states.
 
+## Update the Understanding Ledger
+
+If this task changed a contract, update
+`docs/agents/understanding-ledger.md` before recording the retrospective:
+
+- mark entries that depend on the changed contract `stale`, naming what
+  changed, this task, and the date — the next gate re-verifies exactly those;
+- delete entries whose contract no longer exists.
+
+Do not add new entries here; the gate adds them when understanding is
+demonstrated.
+
 ## Record
 
 Create `docs/agents/retrospectives/YYYY-MM-DD-task.md` from the template.
