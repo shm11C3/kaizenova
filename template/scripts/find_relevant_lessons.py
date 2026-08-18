@@ -7,7 +7,6 @@ import argparse
 import json
 import os
 import re
-import stat
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -41,44 +40,27 @@ def sources(root: Path) -> Iterable[tuple[Path, str, str]]:
         (root / "docs/agents/lessons", "lesson"),
         (root / "docs/agents/retrospectives", "retrospective"),
     )
+    # Symlinked directories or entries could point outside the repository, so
+    # both are skipped rather than followed. Path-level checks instead of
+    # O_NOFOLLOW/dir_fd descriptors keep this portable to Windows.
     for directory, kind in locations:
-        try:
-            resolved_directory = directory.resolve(strict=True)
-            resolved_directory.relative_to(root)
-            if directory.is_symlink():
-                continue
-            directory_fd = os.open(
-                directory,
-                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
-            )
-        except (FileNotFoundError, NotADirectoryError, OSError, ValueError):
+        if directory.is_symlink() or not directory.is_dir():
             continue
         try:
-            for name in sorted(os.listdir(directory_fd)):
-                if not name.endswith(".md") or name in SKIPPED_NAMES:
-                    continue
-                try:
-                    source_fd = os.open(
-                        name,
-                        os.O_RDONLY | os.O_NOFOLLOW,
-                        dir_fd=directory_fd,
-                    )
-                except OSError:
-                    continue
-                try:
-                    if not stat.S_ISREG(os.fstat(source_fd).st_mode):
-                        continue
-                    with os.fdopen(source_fd, encoding="utf-8") as source:
-                        source_fd = -1
-                        text = source.read()
-                except (OSError, UnicodeError):
-                    continue
-                finally:
-                    if source_fd >= 0:
-                        os.close(source_fd)
-                yield directory / name, kind, text
-        finally:
-            os.close(directory_fd)
+            directory.resolve(strict=True).relative_to(root)
+        except (OSError, ValueError):
+            continue
+        for name in sorted(os.listdir(directory)):
+            if not name.endswith(".md") or name in SKIPPED_NAMES:
+                continue
+            path = directory / name
+            if path.is_symlink() or not path.is_file():
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (OSError, UnicodeError):
+                continue
+            yield path, kind, text
 
 
 def bounded_excerpt(text: str, matched: set[str]) -> str:
